@@ -23,5 +23,6 @@ public class Main {
         System.out.println(devices[3] + " " + devices[3].getCondition().toString()); // TODO: Выпилить после сдачи 3 лабы
         cops.attack(devices[3]);
         System.out.println(devices[3] + " " + devices[3].getCondition().toString()); // TODO: Выпилить после сдачи 3 лабы
+        cops.callOver();
     }
 }

@@ -1,10 +1,13 @@
 package cmh.application;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Squad {
     private final String name;
-    private Cop[] members;
+    //private Cop[] members;
+    private ArrayList<Cop> members = new ArrayList<>();
     private Cop leader;
     private int destroyPhraseIndex = 0;
     private final String[] destroyPhrases = {"разбили", "разломали", "изрешетили", "разбили"};
@@ -32,20 +35,25 @@ public class Squad {
     }
 
     public Cop randomCop(){
-        return members[new Random().nextInt(members.length)];
+        return members.get(new Random().nextInt(members.size()));
     }
 
-    public Squad(String name, Cop leader, Cop[] members) {
+    public Squad(String name, Cop leader, ArrayList<Cop> members) {
         this.name = name;
         this.members = members;
         this.leader = leader;
     }
+    public Squad(String name, Cop leader, Cop[] members) {
+        this.name = name;
+        this.members.addAll(Arrays.asList(members));
+        this.leader = leader;
+    }
 
-    public Cop[] getMembers() {
+    public ArrayList<Cop> getMembers() {
         return members;
     }
 
-    public void setMembers(Cop[] members) {
+    public void setMembers(ArrayList<Cop> members) {
         this.members = members;
     }
 
@@ -57,5 +65,8 @@ public class Squad {
         this.leader = leader;
     }
 
+    public void callOver(){
+        members.forEach(c -> c.shout("Здесь!"));
+    }
 
 }
