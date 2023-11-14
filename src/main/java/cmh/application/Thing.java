@@ -5,8 +5,18 @@ import java.util.SortedMap;
 
 
 enum Condition{
-    BROKEN,
-    INTACT
+    BROKEN("Сломано"),
+    INTACT("Целое");
+
+    private String strCond;
+
+    private Condition(String strCond){
+        this.strCond = strCond;
+    }
+
+    public String toString(){
+        return strCond;
+    }
 }
 
 public abstract class Thing implements Breakable {
