@@ -1,21 +1,24 @@
 package cmh.application;
 
+import java.util.EmptyStackException;
 import java.util.Objects;
+import java.util.Queue;
 
-public class Cop {
+
+record R(Cop c, Queue<Thing> toAttack) {
+    public R{
+        if (toAttack.size() == 0){
+            throw new EmptyStackException();
+        }
+    }
+    public void attack(){
+        c.getRangedWeapon().dealDamage(toAttack.poll());
+    }
+}
+public class Cop extends Human {
     private static int amount = 0;
-    private final String name;
-    private Location location;
     private Weapon rangedWeapon;
     private Weapon meleeWeapon;
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public void shout(String phrase){
-        System.out.println(name + " закричал: " + phrase);
-    }
 
     public void swing(){
         System.out.println(name + " взмахнул " + meleeWeapon);
@@ -42,15 +45,6 @@ public class Cop {
         return Objects.equals(name, cop.name) && Objects.equals(rangedWeapon, cop.rangedWeapon) && Objects.equals(meleeWeapon, cop.meleeWeapon);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, rangedWeapon, meleeWeapon);
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public Weapon getRangedWeapon() {
         return rangedWeapon;
     }
@@ -68,13 +62,13 @@ public class Cop {
     }
 
     public Cop(String name) {
-        this.name = name;
+        super(name);
         rangedWeapon = new Weapon("Ружьё");
         meleeWeapon = new Weapon("Дубинка");
     }
 
     public Cop() {
-        this.name = "Полицейский "+ amount;
+        super("Полицейский "+ amount);
         rangedWeapon = new Weapon("Ружьё");
         meleeWeapon = new Weapon("Дубинка");
         amount++;

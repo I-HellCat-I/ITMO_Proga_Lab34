@@ -1,7 +1,6 @@
 package cmh.application;
 
 import java.util.Objects;
-import java.util.SortedMap;
 
 
 enum Condition{
@@ -19,25 +18,21 @@ enum Condition{
     }
 }
 
-public abstract class Thing implements Breakable {
+public abstract class Thing extends Entity implements Breakable {
     private Condition condition;
-    private String name;
     private String onBreakPhrase;
 
     public Thing(String n){
-        name = n;
+        super(n);
         condition = Condition.INTACT;
     }
 
     public Thing(String n, String obf){
-        name = n;
+        super(n);
         condition = Condition.INTACT;
         onBreakPhrase = obf;
     }
-
-    public String getName() {
-        return name;
-    }
+    public void use(Location nearRocket) {}
 
     @Override
     public String toString() {
@@ -46,6 +41,10 @@ public abstract class Thing implements Breakable {
 
     public Condition getCondition(){
         return condition;
+    }
+
+    public void setCondition(Condition c){
+        this.condition = c;
     }
 
     @Override
