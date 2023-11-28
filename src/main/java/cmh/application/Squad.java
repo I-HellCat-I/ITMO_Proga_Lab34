@@ -45,7 +45,7 @@ public class Squad {
             System.out.println("Пули не нанесли ущерба " + target);
         }
     }
-    public void inTheAirReaction(){
+    public void inTheAirReaction() throws unchecked{
         if (checkIfSquadInAir()){
             System.out.println(name + " почувствовали, что почва ушла из-под их ног.");
             confused();

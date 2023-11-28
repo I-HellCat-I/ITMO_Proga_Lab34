@@ -53,7 +53,12 @@ public class Main { /* TODO: Из текста "Незнайка на луне" 
         znaika.customSpeech("Это что же за варварство такое! – вскипел от негодования Знайка.");
         znaika.say("Ну, подождите-ка, я покажу вам!");
         znaika.getHeldDevice().use(rocket.getNearRocket());
-        cops.inTheAirReaction();
+        try{
+            cops.inTheAirReaction();
+        } catch (unchecked e){
+            System.out.println("Полицейские не в воздухе");
+        }
+
         cops.attack(rocket);
         cops.attack(rocket);
         cops.attack(rocket);
