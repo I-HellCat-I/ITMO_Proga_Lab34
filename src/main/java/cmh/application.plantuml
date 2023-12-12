@@ -15,6 +15,7 @@ title __APPLICATION's Class Diagram__\n
     enum Condition {
       BROKEN
       INTACT
+      strCond
     }
   }
   
@@ -22,20 +23,15 @@ title __APPLICATION's Class Diagram__\n
   namespace cmh.application {
     class cmh.application.Cop {
         {static} - amount : int
-        - name : String
         + Cop()
         + Cop()
         + equals()
         + getMeleeWeapon()
-        + getName()
         + getRangedWeapon()
-        + hashCode()
         + melee()
-        + setLocation()
         + setMeleeWeapon()
         + setRangedWeapon()
         + shoot()
-        + shout()
         + swing()
         + toString()
     }
@@ -58,10 +54,73 @@ title __APPLICATION's Class Diagram__\n
   
 
   namespace cmh.application {
-    class cmh.application.Location {
-        - name : String
-        + Location()
+    abstract class cmh.application.Entity {
+        # name : String
+        - ID : Integer
+        {static} - ammount : int
+        - onTheGround : boolean
         + equals()
+        + getLocation()
+        + getName()
+        + hashCode()
+        + isOnTheGround()
+        + moveTo()
+        + moveToEntity()
+        + setLocation()
+        + setOnTheGround()
+        ~ Entity()
+    }
+  }
+  
+
+  namespace cmh.application {
+    class cmh.application.Human {
+        {static} - humanAmount : int
+        - wounds : ArrayList<Wound>
+        + Human()
+        + Human()
+        + addWound()
+        + customSpeech()
+        + endure()
+        + getHeldDevice()
+        + getWounds()
+        + noticeShooting()
+        + say()
+        + setHeldDevice()
+        + setOnNoticeShootingListener()
+        + setWounds()
+        + shout()
+        + toString()
+    }
+  }
+  
+
+  namespace cmh.application {
+    class cmh.application.Wound {
+        - comments : String
+        - name : String
+        + toString()
+        ~ Wound()
+    }
+  }
+  
+
+  namespace cmh.application {
+    abstract class cmh.application.Listener {
+        {abstract} + notify()
+    }
+  }
+  
+
+  namespace cmh.application {
+    class cmh.application.Location {
+        - entities : HashSet<Entity>
+        - name : String
+        + AntiGrav()
+        + Location()
+        + addEntity()
+        + equals()
+        + getEntities()
         + hashCode()
         + toString()
     }
@@ -76,11 +135,33 @@ title __APPLICATION's Class Diagram__\n
   
 
   namespace cmh.application {
+    class cmh.application.Medic {
+        + heal()
+        ~ Medic()
+        ~ fastHealthCheck()
+        ~ healthCheck()
+    }
+  }
+  
+
+  namespace cmh.application {
+    class cmh.application.R {
+        - toAttack : Queue<Thing>
+        + R()
+        + attack()
+        + c()
+        + toAttack()
+    }
+  }
+  
+
+  namespace cmh.application {
     class cmh.application.Rocket {
         {static} - amount : int
         + Rocket()
         + Rocket()
         + damage()
+        + getInsideRocket()
         + getNearRocket()
         + onBreakEvent()
     }
@@ -91,24 +172,29 @@ title __APPLICATION's Class Diagram__\n
     class cmh.application.Squad {
         - destroyPhraseIndex : int
         - destroyPhrases : String[]
-        - members : Cop[]
+        {static} - inTheAirPhraseIndex : int
+        - members : ArrayList<Cop>
         - name : String
         + Squad()
+        + Squad()
         + attack()
+        + callOver()
         + chargePhrase()
+        + checkIfSquadInAir()
         + getLeader()
         + getMembers()
+        + inTheAirReaction()
         + moveTo()
         + randomCop()
         + setLeader()
         + setMembers()
+        - confused()
     }
   }
   
 
   namespace cmh.application {
     abstract class cmh.application.Thing {
-        - name : String
         - onBreakPhrase : String
         + Thing()
         + Thing()
@@ -116,10 +202,11 @@ title __APPLICATION's Class Diagram__\n
         + damage()
         + equals()
         + getCondition()
-        + getName()
         + hashCode()
         + onBreakEvent()
+        + setCondition()
         + toString()
+        + use()
     }
   }
   
@@ -134,14 +221,37 @@ title __APPLICATION's Class Diagram__\n
   }
   
 
-  cmh.application.Cop o-- cmh.application.Location : location
+  namespace cmh.application {
+    class cmh.application.checked {
+        + checked()
+    }
+  }
+  
+
+  namespace cmh.application {
+    class cmh.application.unchecked {
+        + unchecked()
+    }
+  }
+  
+
+  cmh.application.Cop -up-|> cmh.application.Human
   cmh.application.Cop o-- cmh.application.Weapon : meleeWeapon
   cmh.application.Cop o-- cmh.application.Weapon : rangedWeapon
   cmh.application.Device -up-|> cmh.application.Thing
+  cmh.application.Entity o-- cmh.application.Location : location
+  cmh.application.Human -up-|> cmh.application.Entity
+  cmh.application.Human o-- cmh.application.Device : heldDevice
+  cmh.application.Human o-- cmh.application.Listener : onNoticeShootingListener
+  cmh.application.Human +-down- cmh.application.Human.Wound
+  cmh.application.Medic -up-|> cmh.application.Human
+  cmh.application.R o-- cmh.application.Cop : c
   cmh.application.Rocket -up-|> cmh.application.Thing
+  cmh.application.Rocket o-- cmh.application.Location : insideRocket
   cmh.application.Rocket o-- cmh.application.Location : nearRocket
   cmh.application.Squad o-- cmh.application.Cop : leader
   cmh.application.Thing .up.|> cmh.application.Breakable
+  cmh.application.Thing -up-|> cmh.application.Entity
   cmh.application.Thing o-- cmh.application.Condition : condition
   cmh.application.Weapon .up.|> cmh.application.DamageDealer
   cmh.application.Weapon -up-|> cmh.application.Thing

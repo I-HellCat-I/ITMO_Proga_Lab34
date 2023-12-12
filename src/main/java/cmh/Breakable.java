@@ -1,4 +1,4 @@
-package cmh.application;
+package cmh;
 
 public interface Breakable {
     void break_();

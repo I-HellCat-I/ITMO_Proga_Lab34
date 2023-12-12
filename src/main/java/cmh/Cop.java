@@ -1,8 +1,10 @@
-package cmh.application;
+package cmh;
 
-import java.util.EmptyStackException;
-import java.util.Objects;
-import java.util.Queue;
+import javax.crypto.spec.OAEPParameterSpec;
+import javax.swing.text.html.Option;
+import java.awt.*;
+import java.lang.reflect.Field;
+import java.util.*;
 
 
 record R(Cop c, Queue<Thing> toAttack) {
@@ -15,10 +17,23 @@ record R(Cop c, Queue<Thing> toAttack) {
         c.getRangedWeapon().dealDamage(toAttack.poll());
     }
 }
+
+@Significance(TypeOfSignificance.SIGNIFICANT)
 public class Cop extends Human {
     private static int amount = 0;
     private Weapon rangedWeapon;
     private Weapon meleeWeapon;
+
+    public Cop(String name) {
+        super(name);
+        this.initWeapons();
+    }
+
+    public Cop() {
+        super("Полицейский "+ amount);
+        initWeapons();
+        amount++;
+    }
 
     public void swing(){
         System.out.println(name + " взмахнул " + meleeWeapon);
@@ -61,16 +76,10 @@ public class Cop extends Human {
         this.meleeWeapon = meleeWeapon;
     }
 
-    public Cop(String name) {
-        super(name);
+    private void initWeapons(){
         rangedWeapon = new Weapon("Ружьё");
         meleeWeapon = new Weapon("Дубинка");
     }
 
-    public Cop() {
-        super("Полицейский "+ amount);
-        rangedWeapon = new Weapon("Ружьё");
-        meleeWeapon = new Weapon("Дубинка");
-        amount++;
-    }
+
 }

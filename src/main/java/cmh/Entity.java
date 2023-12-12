@@ -1,19 +1,38 @@
-package cmh.application;
+package cmh;
 
+import java.lang.annotation.Inherited;
 import java.util.Objects;
 
+
+@Significance(TypeOfSignificance.NON_SIGNIFICANT)
 public abstract class Entity {
     protected final String name;
     private final Integer ID;
     private Location location;
-    private static int ammount = 0;
     private boolean onTheGround = true;
+
+    private static class IDGiver{
+        private static int amount = 0;
+        private static int giveID(){
+            amount++;
+            return amount-1;
+        }
+    }
+
+    Entity(String n){
+        name = n;
+        ID = IDGiver.giveID();
+    }
+
+    public int getID(){
+        return ID;
+    }
 
     public void setLocation(Location location) {
         this.location = location;
         try {
             location.addEntity(this);
-        } catch (checked ignored) {/* ну и ладно */}
+        } catch (AlreadyInTargetLocationException ignored) {/* ну и ладно */}
     }
 
     public Location getLocation(){
@@ -32,12 +51,6 @@ public abstract class Entity {
 
     public String getName() {
         return name;
-    }
-
-    Entity(String n){
-        name = n;
-        ID = ammount;
-        ammount++;
     }
 
     @Override

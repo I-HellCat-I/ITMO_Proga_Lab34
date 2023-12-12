@@ -1,4 +1,4 @@
-package cmh.application;
+package cmh;
 
 public class Rocket extends Thing{
     private static int amount = 1;
@@ -10,16 +10,15 @@ public class Rocket extends Thing{
         insideRocket = new Location(this.getName());
         amount++;
     }
-
-    public Location getNearRocket(){
-        return nearRocket;
-    }
-
     public Rocket(String n){
         super(n);
         nearRocket = new Location("Около " +this.getName());
         insideRocket = new Location("Внутри " + this.getName());
         amount++;
+    }
+
+    public Location getNearRocket(){
+        return nearRocket;
     }
 
     @Override

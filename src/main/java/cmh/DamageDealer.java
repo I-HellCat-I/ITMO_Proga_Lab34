@@ -1,4 +1,4 @@
-package cmh.application;
+package cmh;
 
 public interface DamageDealer {
     void dealDamage(Thing target);

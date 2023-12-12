@@ -1,10 +1,12 @@
-package cmh.application;
+package cmh;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Squad {
+
+public final class Squad {
+
     private final String name;
     //private Cop[] members;
     private ArrayList<Cop> members = new ArrayList<>();
@@ -12,6 +14,17 @@ public class Squad {
     private int destroyPhraseIndex = 0;
     private static int inTheAirPhraseIndex = 4;
     private final String[] destroyPhrases = {"разбили", "разломали", "изрешетили", "разбили"};
+
+    public Squad(String name, Cop leader, ArrayList<Cop> members) {
+        this.name = name;
+        this.members = members;
+        this.leader = leader;
+    }
+    public Squad(String name, Cop leader, Cop[] members) {
+        this.name = name;
+        this.members.addAll(Arrays.asList(members));
+        this.leader = leader;
+    }
 
 
     public void moveTo(Location dest, String phrase){
@@ -45,12 +58,12 @@ public class Squad {
             System.out.println("Пули не нанесли ущерба " + target);
         }
     }
-    public void inTheAirReaction() throws unchecked{
+    public void inTheAirReaction() throws SquadNotInTheAirException {
         if (checkIfSquadInAir()){
             System.out.println(name + " почувствовали, что почва ушла из-под их ног.");
             confused();
         } else {
-            throw new unchecked(name + " не в воздухе");
+            throw new SquadNotInTheAirException(name);
         }
     }
 
@@ -74,16 +87,6 @@ public class Squad {
         return members.get(new Random().nextInt(members.size()));
     }
 
-    public Squad(String name, Cop leader, ArrayList<Cop> members) {
-        this.name = name;
-        this.members = members;
-        this.leader = leader;
-    }
-    public Squad(String name, Cop leader, Cop[] members) {
-        this.name = name;
-        this.members.addAll(Arrays.asList(members));
-        this.leader = leader;
-    }
 
     public ArrayList<Cop> getMembers() {
         return members;
@@ -105,3 +108,4 @@ public class Squad {
         members.forEach(c -> c.shout("Здесь!"));
     }
 }
+

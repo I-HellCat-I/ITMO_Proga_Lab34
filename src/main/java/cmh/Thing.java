@@ -1,4 +1,4 @@
-package cmh.application;
+package cmh;
 
 import java.util.Objects;
 

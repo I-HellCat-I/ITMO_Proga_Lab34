@@ -1,6 +1,5 @@
-package cmh.application;
+package cmh;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -25,9 +24,9 @@ public class Location {
         return Objects.equals(name, location.name);
     }
 
-    public void addEntity(Entity h) throws checked {
+    public void addEntity(Entity h) throws AlreadyInTargetLocationException {
         if (entities.contains(h)) {
-            throw new checked(h + " уже в " + this);
+            throw new AlreadyInTargetLocationException(h, this);
         }
         entities.add(h);
     }

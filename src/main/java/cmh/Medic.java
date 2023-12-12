@@ -1,7 +1,8 @@
-package cmh.application;
+package cmh;
 
 import java.util.ArrayList;
 
+@Significance(TypeOfSignificance.SIGNIFICANT)
 public class Medic extends Human{
     Medic(String n){
         super(n);

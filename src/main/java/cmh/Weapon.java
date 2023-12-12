@@ -1,4 +1,4 @@
-package cmh.application;
+package cmh;
 
 public class Weapon extends Thing implements DamageDealer {
     private static int amount = 0;

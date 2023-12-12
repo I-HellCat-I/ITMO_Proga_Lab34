@@ -1,8 +1,6 @@
-package cmh.application;
+package cmh;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
 
 
 public class Human extends Entity {

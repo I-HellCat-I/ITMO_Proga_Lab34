@@ -1,11 +1,30 @@
-package cmh.application;
+package cmh;
 
 
-import javax.swing.text.html.Option;
-import java.util.*;
+import java.util.Optional;
+public class Main { /* TODO: загуглить minorCollection majorCollection, сделать кастомную нотацию задающую поле
 
-public class Main { /* TODO: Из текста "Незнайка на луне" то же самое, но +5 предложений до предложения "Убедившись что пули не...", + 5 предложеий после чтоб разбить анемометр. */
-
+ Из текста "Незнайка на луне" то же самое, но +5 предложений до предложения "Убедившись что пули не...", + 5 предложеий после чтоб разбить анемометр. */
+    public static String shouldBePurged(Object obj){
+        //System.out.println(obj);
+        Optional<Significance> op = Optional.ofNullable(obj.getClass().getAnnotation(Significance.class));
+        if (op.isEmpty()){
+            return "Не от чего избавляться";
+        }
+        switch (op.get().value()){
+            case SEMI_SIGNIFICANT -> {
+                return "Следует обдумать надо ли избавляться от этого";
+            }
+            case SIGNIFICANT -> {
+                return "Не стоит избавляться от этого";
+            }
+            case NON_SIGNIFICANT -> {
+                return "Можно избавляться";
+            } default -> {
+                return "???";
+            }
+        }
+    }
     public static void main(String[] args) {
         Rocket rocket = new Rocket("Ракета");
         Location insideRocket = rocket.getInsideRocket();
@@ -15,6 +34,9 @@ public class Main { /* TODO: Из текста "Незнайка на луне" 
         klepka.setLocation(insideRocket);
         Human znaika = new Human("Знайка");
         znaika.setLocation(insideRocket);
+        //@Significance(value = TypeOfSignificance.NON_SIGNIFICANT)
+        Cop rigel = new Cop("Ригель");
+
         znaika.setHeldDevice(new Device("Прибор невесомости"){
             public void use(Location l) {
                 l.AntiGrav();
@@ -34,7 +56,6 @@ public class Main { /* TODO: Из текста "Незнайка на луне" 
         klepka.endure();
 
         znaika.noticeShooting();
-        Cop rigel = new Cop("Ригель");
         Squad cops = new Squad("Полицейские", rigel, new Cop[]{rigel, new Cop(), new Cop()});
         Device[] devices = {
                 new Device("барометр", "разбит"),
@@ -55,14 +76,19 @@ public class Main { /* TODO: Из текста "Незнайка на луне" 
         znaika.getHeldDevice().use(rocket.getNearRocket());
         try{
             cops.inTheAirReaction();
-        } catch (unchecked e){
+        } catch (SquadNotInTheAirException e){
+        e.getSuppressed();
             System.out.println("Полицейские не в воздухе");
         }
+        cops.attack(rocket);
+        cops.attack(rocket);
+        cops.attack(rocket);
+        cops.attack(rocket);
+        System.out.println(shouldBePurged(rigel)); // 451 f
+        System.out.println(shouldBePurged(klepka));
 
-        cops.attack(rocket);
-        cops.attack(rocket);
-        cops.attack(rocket);
-        cops.attack(rocket);
+        //System.out.println(pilulkin.getID());
+        //System.out.println(znaika.getID());
 
 
         /*System.out.println(devices[3] + " " + devices[3].getCondition().toString()); // TODO: Выпилить после сдачи 3 лабы

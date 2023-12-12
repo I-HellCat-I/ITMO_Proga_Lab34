@@ -1,4 +1,4 @@
-package cmh.application;
+package cmh;
 
 public class Device extends Thing{
     public Device(String n) {
